@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Una sorpresa navideña</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section id="landing-screen" class="screen active-screen">
+    <img src="icono_navidad.png" class="floating-deco deco1" alt="">
+    <img src="icono_navidad2.png" class="floating-deco deco2" alt="">
+    <img src="icono_navidad3.png" class="floating-deco deco3" alt="">
+
+    <div class="landing-content">
+        <h1>¡Alerta Navideña!</h1>
+        <p>Hay un tripulante sospechoso...</p>
+        <button id="start-btn">Toca aquí</button>
+    </div>
+</section>
+
+
+<section id="interaction-screen" class="screen hidden-screen">
+    <h2>¡Desliza a tu personaje!</h2>
+
+    <div class="drag-container">
+        <div id="hidden-note">
+            <p class="to-dax">Para Daxで</p>
+            <p class="message">Te deseo unas Felices Fiestas!</p>
+            <p class="signature">con mucho cariño <br> <strong>LJ</strong></p>
+        </div>
+
+        <img id="draggable-char" src="among_us_red.png" alt="Personaje Among Us">
+    </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
