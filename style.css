@@ -9,7 +9,7 @@ body, html {
     height: 100%;
     width: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden; /* Evita scrolls accidentales en móvil */
+    overflow: hidden;
 }
 
 /* Sistema de Pantallas */
@@ -25,13 +25,19 @@ body, html {
 }
 
 .active { transform: translateX(0); }
-.hidden { transform: translateX(100%); }
+.hidden { transform: translateX(100%); z-index: 10; } /* Z-index para asegurar que tape las decos al entrar */
 
 /* --- Pantalla 1 --- */
 #landing-screen {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     color: white;
     text-align: center;
+    overflow: hidden; /* Importante para las decoraciones */
+}
+
+.content {
+    z-index: 5; /* Para que el texto quede SOBRE las decoraciones */
+    position: relative;
 }
 
 #start-btn {
@@ -46,9 +52,51 @@ body, html {
     cursor: pointer;
 }
 
-/* --- Pantalla 2 --- */
+/* --- NUEVO: Decoraciones Flotantes --- */
+.decorations-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* CRUCIAL: Permite dar clic al botón a través de las imágenes */
+}
+
+.deco {
+    position: absolute;
+    opacity: 0.5; /* Un poco transparentes para no distraer tanto */
+    animation: floatAnim 4s ease-in-out infinite alternate;
+}
+
+/* Tamaños */
+.small { width: 30px; }
+.medium { width: 50px; }
+.large { width: 80px; }
+
+/* Posiciones específicas distribuidas por la pantalla */
+.d1 { top: 10%; left: 5%; }
+.d2 { top: 25%; right: 10%; animation-duration: 5s; }
+.d3 { bottom: 20%; left: 15%; animation-duration: 6s; }
+.d4 { bottom: 10%; right: 5%; }
+.d5 { top: 5%; right: 30%; animation-duration: 4.5s; }
+.d6 { bottom: 40%; left: -20px; } /* Empieza un poco fuera */
+.d7 { top: 50%; right: -20px; }
+.d8 { top: 80%; left: 40%; animation-duration: 5.5s; }
+
+/* Retrasos para que no se muevan al unísono */
+.delay-1 { animation-delay: 1s; }
+.delay-2 { animation-delay: 1.5s; }
+.delay-3 { animation-delay: 2s; }
+
+@keyframes floatAnim {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-30px) rotate(15deg); }
+}
+
+
+/* --- Pantalla 2 (ESTO SIGUE IGUAL QUE ANTES) --- */
 #interaction-screen {
-    background-image: url('fondo_navidad.png'); /* image_7f0ba9.jpg */
+    background-image: url('fondo_navidad.png');
     background-size: cover;
     background-position: center;
 }
@@ -72,12 +120,11 @@ body, html {
     align-items: center;
 }
 
-/* LA NOTA (Mobile Adaptable) */
 .note {
     position: absolute;
     width: 80%;
     max-width: 320px;
-    background: #fff9c4; /* Color amarillento */
+    background: #fff9c4;
     padding: 20px;
     transform: rotate(-2deg);
     box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
@@ -92,12 +139,11 @@ body, html {
 .note-body { color: #d32f2f; line-height: 1.4; font-size: 1rem; }
 .note-from { color: #d32f2f; text-align: right; margin-top: 15px; font-size: 0.9rem; }
 
-/* PERSONAJE */
 #among-char {
     width: 130px;
     height: auto;
     z-index: 10;
-    touch-action: none; /* Bloquea el scroll del navegador al tocarlo */
+    touch-action: none;
     filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
 }
 
