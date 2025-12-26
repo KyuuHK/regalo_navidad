@@ -1,56 +1,53 @@
 const startBtn = document.getElementById('start-btn');
 const landing = document.getElementById('landing-screen');
 const interaction = document.getElementById('interaction-screen');
-const character = document.getElementById('among-char');
+const char = document.getElementById('among-char');
 const note = document.getElementById('hidden-note');
 
-// Cambio de pantalla corregido
+// Cambio de pantalla sin errores
 startBtn.addEventListener('click', () => {
-    landing.classList.add('fade-out'); // Usa la nueva clase que desactiva eventos
-    interaction.classList.remove('hidden');
-    interaction.classList.add('active');
-    
-    // Opcional: Eliminar del DOM tras la animación para seguridad total
+    landing.classList.add('exit');
     setTimeout(() => {
         landing.style.display = 'none';
-    }, 700);
+        interaction.classList.remove('hidden');
+        interaction.classList.add('active');
+    }, 600);
 });
 
+// Lógica de arrastre (Touch)
 let isDragging = false;
-let startX, startY;
-let currentX = 0, currentY = 0;
+let startX, startY, currentX = 0, currentY = 0;
 
-character.addEventListener('touchstart', (e) => {
+char.addEventListener('touchstart', (e) => {
     isDragging = true;
     startX = e.touches[0].clientX - currentX;
     startY = e.touches[0].clientY - currentY;
-    character.style.transition = "none";
+    char.style.transition = "none";
 }, { passive: false });
 
-character.addEventListener('touchmove', (e) => {
+char.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     e.preventDefault();
     currentX = e.touches[0].clientX - startX;
     currentY = e.touches[0].clientY - startY;
-    character.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    char.style.transform = `translate(${currentX}px, ${currentY}px)`;
 }, { passive: false });
 
-character.addEventListener('touchend', () => {
+char.addEventListener('touchend', () => {
     isDragging = false;
     const distance = Math.sqrt(currentX * currentX + currentY * currentY);
 
-    if (distance > 120) {
-        character.style.transition = "all 0.5s ease-out";
-        character.style.opacity = "0";
-        character.style.transform = `translate(${currentX * 1.5}px, ${currentY * 1.5}px) scale(0)`;
-        
+    if (distance > 100) {
+        char.style.transition = "all 0.6s ease-out";
+        char.style.opacity = "0";
+        char.style.transform = `translate(${currentX * 1.5}px, ${currentY * 1.5}px) scale(0)`;
         setTimeout(() => {
-            note.classList.add('note-revealed');
-            character.style.display = "none";
+            note.classList.add('revealed');
+            char.style.display = 'none';
         }, 300);
     } else {
-        character.style.transition = "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+        char.style.transition = "transform 0.3s ease";
         currentX = 0; currentY = 0;
-        character.style.transform = `translate(0,0)`;
+        char.style.transform = `translate(0,0)`;
     }
 });
