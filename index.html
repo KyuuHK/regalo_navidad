@@ -3,38 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Una sorpresa navideña</title>
+    <title>Felices Fiestas - Sorpresa</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<section id="landing-screen" class="screen active-screen">
-    <img src="icono_navidad.png" class="floating-deco deco1" alt="">
-    <img src="icono_navidad2.png" class="floating-deco deco2" alt="">
-    <img src="icono_navidad3.png" class="floating-deco deco3" alt="">
+    <section id="landing-screen" class="screen active">
+        <div class="stars"></div>
+        <div class="content">
+            <h1>¡Alerta Navideña! 🎄</h1>
+            <p>Hay algo sospechoso esperándote...</p>
+            <button id="start-btn">Toca aquí</button>
+        </div>
+    </section>
 
-    <div class="landing-content">
-        <h1>¡Alerta Navideña!</h1>
-        <p>Hay un tripulante sospechoso...</p>
-        <button id="start-btn">Toca aquí</button>
-    </div>
-</section>
+    <section id="interaction-screen" class="screen hidden">
+        <h2 id="main-title">¿Quién es el impostor?</h2>
+        
+        <div class="game-container">
+            <div id="hidden-note" class="note">
+                <p class="note-to">Para Daxで</p>
+                <p class="note-body">
+                    Espero que pases felices fiestas, y que tu vida sea más bonita cada día, te deseo lo mejor.
+                </p>
+                <p class="note-from">Con cariño tu Amix secreto></p>
+            </div>
 
-
-<section id="interaction-screen" class="screen hidden-screen">
-    <h2>¡Desliza a tu personaje!</h2>
-
-    <div class="drag-container">
-        <div id="hidden-note">
-            <p class="to-dax">Para Daxで</p>
-            <p class="message">Espero que pases felices fiestas, y que tú vida sea más bonita cada día, te deseo lo mejor </p>
-            <p class="signature">Con cariño tu Amix secreto></p>
+            <img id="among-char" src="among_us_red.png" alt="Among Us Character">
         </div>
 
-        <img id="draggable-char" src="among_us_red.png" alt="Personaje Among Us">
-    </div>
-</section>
+        <p id="instruction-text">¡Desliza al personaje para revelar el mensaje!</p>
+    </section>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
