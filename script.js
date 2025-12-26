@@ -9,7 +9,7 @@ const instruction = document.getElementById('instruction-text');
 // Cambio de pantalla
 startBtn.addEventListener('click', () => {
     landing.classList.remove('active');
-    landing.style.transform = 'translateX(-100%)';
+    // landing.style.transform = 'translateX(-100%)'; // Ya no es necesario con las clases
     interaction.classList.remove('hidden');
     interaction.classList.add('active');
 });
@@ -30,7 +30,7 @@ character.addEventListener('touchstart', (e) => {
 // Movimiento
 character.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
-    e.preventDefault(); // Evita que la pantalla se mueva mientras arrastras
+    e.preventDefault();
 
     currentX = e.touches[0].clientX - startX;
     currentY = e.touches[0].clientY - startY;
@@ -42,16 +42,13 @@ character.addEventListener('touchmove', (e) => {
 character.addEventListener('touchend', () => {
     isDragging = false;
     
-    // Calculamos qué tan lejos se movió (Teorema de Pitágoras)
     const distance = Math.sqrt(currentX * currentX + currentY * currentY);
 
     if (distance > 100) {
-        // EFECTO: El personaje sale disparado y desaparece
         character.style.transition = "all 0.6s ease-out";
         character.style.opacity = "0";
         character.style.transform = `translate(${currentX * 2}px, ${currentY * 2}px) scale(0)`;
         
-        // Revelar nota y cambiar textos
         setTimeout(() => {
             note.classList.add('note-revealed');
             title.textContent = "¡Sorpresa Lograda!";
@@ -59,7 +56,6 @@ character.addEventListener('touchend', () => {
             character.style.display = "none";
         }, 300);
     } else {
-        // Regresar al centro si no se movió suficiente
         character.style.transition = "transform 0.3s ease";
         currentX = 0;
         currentY = 0;
