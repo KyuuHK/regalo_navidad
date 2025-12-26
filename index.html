@@ -6,7 +6,7 @@
     <title>Navidad Among Us</title>
     <style>
         /* --- CSS: DISEÑO ROBUSTO --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body, html {
             height: 100%; width: 100%;
@@ -19,47 +19,44 @@
             position: absolute;
             width: 100%; height: 100%;
             display: flex; justify-content: center; align-items: center;
-            transition: all 0.6s ease-in-out;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        /* Arreglo de capas */
-        .active { opacity: 1; z-index: 10; visibility: visible; }
-        .hidden { opacity: 0; z-index: 5; visibility: hidden; }
-        .exit { transform: translateX(-100%); opacity: 0; pointer-events: none; }
+        /* Control de pantallas */
+        .active { opacity: 1; z-index: 100; visibility: visible; }
+        .hidden { opacity: 0; z-index: 1; visibility: hidden; pointer-events: none; }
 
         /* --- HOME PAGE --- */
         #landing-screen { background: radial-gradient(circle, #1a3c4a, #0b1a21); }
 
-        /* Capa de decoraciones: no afecta al botón */
         .decorations-layer {
             position: absolute; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1;
+            pointer-events: none; z-index: -1;
         }
 
-        .deco { position: absolute; opacity: 0.5; animation: float 4s infinite alternate ease-in-out; }
+        .deco { position: absolute; opacity: 0.4; animation: float 3s infinite alternate ease-in-out; }
         .small { width: 40px; } .medium { width: 60px; }
         
         .d1 { top: 10%; left: 10%; } .d2 { top: 15%; right: 15%; }
         .d3 { bottom: 20%; left: 15%; } .d4 { bottom: 10%; right: 10%; }
 
         @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(10px, -20px) rotate(10deg); }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
         }
 
-        /* Contenedor del texto central */
-        .central-box {
-            text-align: center; color: white; z-index: 100;
-            padding: 20px;
-        }
-
-        .central-box h1 { font-size: 2rem; margin-bottom: 15px; }
+        .central-box { text-align: center; color: white; padding: 20px; }
+        .central-box h1 { font-size: 1.8rem; margin-bottom: 20px; }
 
         #start-btn {
-            padding: 16px 40px; border-radius: 50px; border: none;
+            padding: 18px 45px; border-radius: 50px; border: none;
             background: #f44336; color: white; font-weight: bold;
-            font-size: 1.1rem; cursor: pointer;
-            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+            font-size: 1.2rem; cursor: pointer;
+            box-shadow: 0 8px 25px rgba(244, 67, 54, 0.5);
+            /* Fact: pointer-events auto asegura que responda */
+            pointer-events: auto;
+            position: relative;
+            z-index: 101;
         }
 
         /* --- PANTALLA DE JUEGO --- */
@@ -69,27 +66,25 @@
         }
 
         .game-container { 
-            position: relative; width: 100%; height: 400px; 
+            position: relative; width: 100%; height: 350px; 
             display: flex; justify-content: center; align-items: center; 
         }
 
         #among-char { 
-            width: 140px; z-index: 20; touch-action: none; 
+            width: 130px; z-index: 50; touch-action: none; 
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); 
         }
 
         .note {
-            position: absolute; width: 85%; max-width: 320px;
-            background: #fff9c4; padding: 25px; border-radius: 4px;
-            box-shadow: 10px 10px 40px rgba(0,0,0,0.6);
-            opacity: 0; transform: rotate(-2deg); transition: opacity 0.6s;
-            z-index: 10; color: #b71c1c;
+            position: absolute; width: 85%; max-width: 300px;
+            background: #fff9c4; padding: 20px; border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0; transform: rotate(-2deg); transition: opacity 0.5s;
+            z-index: 10; color: #b71c1c; text-align: left;
         }
 
         .revealed { opacity: 1 !important; }
-        .note-to { font-weight: bold; margin-bottom: 10px; font-size: 1.2rem; }
-        
-        #main-title { position: absolute; top: 10%; color: white; text-shadow: 2px 2px 5px #000; }
+        #main-title { position: absolute; top: 8%; color: white; text-shadow: 2px 2px 5px #000; text-align: center; width: 90%; }
     </style>
 </head>
 <body>
@@ -97,13 +92,9 @@
     <section id="landing-screen" class="screen active">
         <div class="decorations-layer">
             <img src="icono_navidad.png" class="deco d1 small">
-            <img src="icono_navidad2.png" class="deco d2 medium">
-            <img src="icono_navidad3.png" class="deco d3 small">
+            <img src="icono_navidad.png" class="deco d2 medium">
+            <img src="icono_navidad.png" class="deco d3 small">
             <img src="icono_navidad.png" class="deco d4 medium">
-            <img src="icono_navidad2.png" class="deco d5 small" alt="">
-            <img src="icono_navidad3.png" class="deco d6 large delay-1" alt="">
-            <img src="icono_navidad.png" class="deco d7 medium delay-2" alt="">
-            <img src="icono_navidad2.png" class="deco d8 small" alt="">
         </div>
 
         <div class="central-box">
@@ -115,117 +106,73 @@
 
     <section id="interaction-screen" class="screen hidden">
         <h2 id="main-title">¿Quién es el impostor?</h2>
-        
         <div class="game-container">
             <div id="hidden-note" class="note">
-                <p class="note-to">Para Daxで</p>
-                <p class="note-body">Espero que pases felices fiestas, y que tu vida sea más bonita cada día, te deseo lo mejor.</p>
-                <p style="text-align:right; margin-top:15px;">Con cariño tu Amix secreto></p>
+                <p><strong>Para Daxで</strong></p><br>
+                <p>Espero que pases felices fiestas, y que tu vida sea más bonita cada día, te deseo lo mejor.</p>
+                <p style="text-align:right; margin-top:15px; font-style:italic;">Con cariño tu Amix secreto></p>
             </div>
             <img id="among-char" src="among_us_red.png">
         </div>
     </section>
 
     <script>
-        // --- JS: LÓGICA DE INTERACCIÓN ---
-        const startBtn = document.getElementById('start-btn');
-        const landing = document.getElementById('landing-screen');
-        const interaction = document.getElementById('interaction-screen');
-        const char = document.getElementById('among-char');
-        const note = document.getElementById('hidden-note');
+        // Fact: Usar un solo punto de entrada garantiza que el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            const startBtn = document.getElementById('start-btn');
+            const landing = document.getElementById('landing-screen');
+            const interaction = document.getElementById('interaction-screen');
+            const char = document.getElementById('among-char');
+            const note = document.getElementById('hidden-note');
 
-        startBtn.addEventListener('click', () => {
-            landing.classList.add('exit');
-            setTimeout(() => {
-                landing.style.display = 'none';
-                interaction.classList.remove('hidden');
-                interaction.classList.add('active');
-            }, 600);
-        });
+            // Cambio de pantalla con evento 'pointerdown' para rapidez total
+            startBtn.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                landing.classList.replace('active', 'hidden');
+                interaction.classList.replace('hidden', 'active');
+                console.log("Cambiando a pantalla de juego...");
+            });
 
-        let isDragging = false;
-        let startX, startY, currentX = 0, currentY = 0;
+            // Lógica de arrastre
+            let isDragging = false;
+            let startX, startY, currentX = 0, currentY = 0;
 
-        char.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            startX = e.touches[0].clientX - currentX;
-            startY = e.touches[0].clientY - currentY;
-            char.style.transition = "none";
-        });
+            char.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                const touch = e.touches[0];
+                startX = touch.clientX - currentX;
+                startY = touch.clientY - currentY;
+                char.style.transition = "none";
+            }, { passive: false });
 
-        char.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            currentX = e.touches[0].clientX - startX;
-            currentY = e.touches[0].clientY - startY;
-            char.style.transform = `translate(${currentX}px, ${currentY}px)`;
-        });
+            char.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                currentX = touch.clientX - startX;
+                currentY = touch.clientY - startY;
+                char.style.transform = `translate(${currentX}px, ${currentY}px)`;
+            }, { passive: false });
 
-        char.addEventListener('touchend', () => {
-            isDragging = false;
-            const distance = Math.sqrt(currentX * currentX + currentY * currentY);
+            char.addEventListener('touchend', () => {
+                isDragging = false;
+                const distance = Math.sqrt(currentX * currentX + currentY * currentY);
 
-            if (distance > 100) {
-                char.style.transition = "all 0.6s ease-out";
-                char.style.opacity = "0";
-                char.style.transform = `translate(${currentX * 1.5}px, ${currentY * 1.5}px) scale(0)`;
-                setTimeout(() => {
-                    note.classList.add('revealed');
-                    char.style.display = 'none';
-                }, 300);
-            } else {
-                char.style.transition = "transform 0.3s ease";
-                currentX = 0; currentY = 0;
-                char.style.transform = `translate(0,0)`;
-            }
+                if (distance > 100) {
+                    char.style.transition = "all 0.5s ease-out";
+                    char.style.opacity = "0";
+                    char.style.transform += " scale(0)";
+                    setTimeout(() => {
+                        note.classList.add('revealed');
+                        char.style.display = 'none';
+                    }, 300);
+                } else {
+                    char.style.transition = "transform 0.3s ease";
+                    currentX = 0; currentY = 0;
+                    char.style.transform = `translate(0,0)`;
+                }
+            });
         });
     </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Navidad Among Us</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <section id="landing-screen" class="screen active">
-        <div class="decorations-layer">
-            <img src="icono_navidad.png" class="deco d1 medium" alt="">
-            <img src="icono_navidad2.png" class="deco d2 small delay-1" alt="">
-            <img src="icono_navidad3.png" class="deco d3 large delay-2" alt="">
-            <img src="icono_navidad.png" class="deco d4 medium delay-3" alt="">
-            <img src="icono_navidad2.png" class="deco d5 small" alt="">
-            <img src="icono_navidad3.png" class="deco d6 large delay-1" alt="">
-            <img src="icono_navidad.png" class="deco d7 medium delay-2" alt="">
-            <img src="icono_navidad2.png" class="deco d8 small" alt="">
-        </div>
-
-        <div class="central-box">
-            <h1>¡Alerta Navideña! 🎄</h1>
-            <p>Hay algo sospechoso esperándote...</p>
-            <button id="start-btn">Toca aquí</button>
-        </div>
-    </section>
-
-    <section id="interaction-screen" class="screen hidden">
-        <h2 id="main-title">¿Quién es el impostor?</h2>
-        
-        <div class="game-container">
-            <div id="hidden-note" class="note">
-                <p class="note-to">Para Daxで</p>
-                <p class="note-body">
-                    Espero que pases felices fiestas, y que tu vida sea más bonita cada día, te deseo lo mejor.
-                </p>
-                <p class="note-from">Con cariño tu Amix secreto></p>
-            </div>
-            <img id="among-char" src="among_us_red.png" alt="Among Us">
-        </div>
-        <p id="instruction-text">¡Desliza al personaje!</p>
-    </section>
-
-    <script src="script.js"></script>
 </body>
 </html>
